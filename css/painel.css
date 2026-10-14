@@ -66,3 +66,15 @@ html {
     font-size: 28px;
     line-height: 1;
 }
+
+@media (max-width: 1350px) {
+    #painel-atendimento {
+        flex-direction: column;
+    }
+
+    #campo-atendimento,
+    #campo-apresentacao {
+        flex: none;
+        width: 100%;
+    }
+}

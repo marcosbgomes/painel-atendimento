@@ -1,6 +1,10 @@
 #imprimir-senha {
     flex: 1;
     display: flex;
+    min-width: 0;
+    min-height: 0;
+    gap: 10px;
+    padding: 10px;
 }
 
 #imprimir-senha div {
@@ -9,9 +13,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 5px;
-    /* background-color: aqua; */
-    border-radius: 8px;
+    min-width: 0;
+    min-height: 0;
 }
 
 #impressao-senha {
@@ -60,6 +63,7 @@
 #btns-opcoes-atendimento button:hover {
     scale: calc(1.1);
     font-size: 12pt;
+    padding: 4px;
     box-shadow: 2px 2px 8px rgb(49, 49, 49);
 }
 
@@ -77,4 +81,12 @@
 
 #btn-exames-laboratoriais {
     background: linear-gradient(135deg, #a66bea, #6936b8);
+}
+
+#t1-img-hospital img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px #5a5a5a;
 }
