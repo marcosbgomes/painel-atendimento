@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/painel.css">
+    <link rel="stylesheet" href="css/retirada-senha.css">
     <title>Painel de Atendimento</title>
 </head>
 <body>
@@ -13,6 +14,21 @@
             <!-- Tela 1: Retirada de senha e avaliação do atendimento -->
             <div id="retirar-senha" class="tela-painel">
                 <h2><span class="icone-titulo">🎫</span> Retirada de Senha</h2>
+                <!-- Tela de seleção de atendimento e impressão de senha -->
+                <div id="imprimir-senha">
+                    <div id="btns-opcoes-atendimento">
+                        <button id="btn-atendimento-geral">Atendimento Geral</button>
+                        <button id="btn-consultas-agendadas">Consultas Agendadas</button>
+                        <button id="btn-atendimento-preferencial">Atendimento Preferencial</button>
+                        <button id="btn-exames-laboratoriais">Exames Laboratoriais</button>
+                    </div>
+                    <div id="impressao-senha">Imprimindo...</div>
+                    <div id="t1-img-hospital">Imagem de propaganda</div>
+                </div>
+
+                <!-- Tela de avaliação do atendimento (Display none por padrão) -->
+                <!-- Alterna a exibição com a tela de impressão de senha -->
+                <div id="avaliar-atendimento"></div>
             </div>
 
             <!-- Tela 2: Triagem e atendimento do paciente -->

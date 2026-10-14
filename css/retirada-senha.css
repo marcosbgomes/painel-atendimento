@@ -1,0 +1,80 @@
+#imprimir-senha {
+    flex: 1;
+    display: flex;
+}
+
+#imprimir-senha div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    /* background-color: aqua; */
+    border-radius: 8px;
+}
+
+#impressao-senha {
+    position: relative;
+}
+
+/* Bordas do container para ficar bonito */
+#impressao-senha::before,
+#impressao-senha::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    height: 80%;
+    width: 3px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #d1d5db 20%,
+        #d1d5db 80%,
+        transparent
+    );
+}
+
+#impressao-senha::before {
+    left: 0;
+}
+
+#impressao-senha::after {
+    right: 0;
+}
+
+#btns-opcoes-atendimento {
+    gap: 8px;
+}
+
+#btns-opcoes-atendimento button {
+    font-size: 10pt;
+    width: 90%;
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+#btns-opcoes-atendimento button:hover {
+    scale: calc(1.1);
+    font-size: 12pt;
+    box-shadow: 2px 2px 8px rgb(49, 49, 49);
+}
+
+#btn-atendimento-geral {
+    background: linear-gradient(135deg, #4f8fe8, #3264b8);
+}
+
+#btn-consultas-agendadas {
+    background: linear-gradient(135deg, #4caf50, #247a38);
+}
+
+#btn-atendimento-preferencial {
+    background: linear-gradient(135deg, #ffad42, #e66a16);
+}
+
+#btn-exames-laboratoriais {
+    background: linear-gradient(135deg, #a66bea, #6936b8);
+}
