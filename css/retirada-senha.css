@@ -15,6 +15,7 @@
     align-items: center;
     min-width: 0;
     min-height: 0;
+    width: 100%;
 }
 
 #impressao-senha {
@@ -83,10 +84,47 @@
     background: linear-gradient(135deg, #a66bea, #6936b8);
 }
 
-#t1-img-hospital img {
+#t1-img-hospital {
+    position: relative;
+}
+
+
+.img-slide {
+    position: absolute;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     border-radius: 10px;
     box-shadow: 1px 1px 8px #5a5a5a;
+    /* Configuração da animação: 10s no total (5s para cada imagem) */
+    animation: slideImagem 40s infinite;
+    opacity: 0;
+}
+
+.img-slide:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.img-slide:nth-child(2) {
+    animation-delay: -30s;
+}
+
+.img-slide:nth-child(3) {
+    animation-delay: -20s;
+}
+
+.img-slide:nth-child(4) {
+    animation-delay: -10s;
+}
+
+@keyframes slideImagem {
+    0%, 20% {
+        opacity: 1;
+    }
+    25%, 95% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
