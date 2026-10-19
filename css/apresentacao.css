@@ -1,0 +1,118 @@
+/* ==========================================================================
+   PAINEL DE ATENDIMENTO - PREENCHIMENTO TOTAL NO TOPO E BORDAS SUPERIORES
+   ========================================================================== */
+
+/* 1. Reset Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. Remoção de todas as margens superiores e laterais do navegador */
+html, body {
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background-color: #d8f0fa !important;
+    margin: 0 !important;
+    padding: 0 !important; /* Zero padding para colar no topo e nas extremidades */
+}
+
+/* O <body> expande 100% na horizontal e vertical */
+body {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    padding: 0 6px 6px 6px !important; /* Zero no topo, mantendo um pequeno respiro em baixo e nas laterais */
+}
+
+/* COLUNA ESQUERDA (EXATAMENTE 50% DA LARGURA) */
+.coluna-esquerda {
+    flex: 0 0 calc(50% - 5px) !important;
+    width: calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+    min-width: calc(50% - 5px) !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+/* COLUNA DIREITA (EXATAMENTE 50% DA LARGURA) */
+#campo-apresentacao {
+    flex: 0 0 calc(50% - 5px) !important;
+    width: calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+    min-width: calc(50% - 5px) !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* CARTÕES BRANCOS */
+.cartao-painel {
+    background-color: #ffffff !important;
+    border-radius: 0 0 8px 8px !important; /* Encosta reto no topo e arredonda em baixo */
+    border: 1px solid #bce2f3 !important;
+    border-top: none !important; /* Remove borda superior para colar perfeitamente */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.coluna-esquerda .cartao-painel {
+    flex: 1 !important;
+}
+
+/* CABEÇALHOS AZUL ESCURO (EXPANDIDOS NO TOPO) */
+h2 {
+    background-color: #003067 !important;
+    color: #ffffff !important;
+    padding: 16px 24px !important;
+    font-size: 1.6rem !important;
+    font-weight: bold !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/* VÍDEO SUPERIOR */
+#video-saude {
+    width: 100% !important;
+    height: 420px !important;
+    object-fit: cover !important;
+    display: block !important;
+    background-color: #000 !important;
+}
+
+/* ÁREA DA SENHA */
+.conteudo-senha {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 15px !important;
+    text-align: center !important;
+}
+
+.numero-senha {
+    font-size: 8.5rem !important;
+    font-weight: bold !important;
+    color: #003067 !important;
+    line-height: 1 !important;
+}
+
+.guiche-info {
+    font-size: 3.2rem !important;
+    color: #0077b6 !important;
+    font-weight: 600 !important;
+    margin-top: 15px !important;
+}

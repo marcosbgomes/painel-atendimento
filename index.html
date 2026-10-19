@@ -23,11 +23,108 @@
 
         <!-- Parte direita da tela -->
         <div id="campo-apresentacao">
-            <!-- Tela 3: Vídeos, anúncios e chamadas de senhas -->
-            <div id="chamada-senhas" class="tela-painel">
-                <h2><span class="icone-titulo">🔔</span> Chamada de Senhas</h2>
+            <div id="chamada-senhas" class="cartao-painel">
+               <h2>🔔 Chamada de Senhas</h2>
+            
+            <video id="video-saude" autoplay muted playsinline>
+                <source src="videos/49808-458438856_medium.mp4" type="video/mp4">
+            </video>
+
+            <div class="conteudo-senha">
+                <div class="numero-senha">A001</div>
+                <div class="guiche-info">Consultório 02</div>
             </div>
         </div>
     </div>
+
+   <script>
+      const playerVideo = document.getElementById('video-saude');
+
+      // Coloque aqui o caminho de TODOS os seus vídeos baixados
+      const listaVideos = [
+        'videos/49808-458438856_medium.mp4',
+        'videos/144001-784164306_medium.mp4',
+        'videos/6998178-hd_1080_1920_25fps.mp4'
+      ];
+
+      let indiceAtual = 0;
+
+      // Quando o vídeo atual terminar, passa para o próximo da lista
+      playerVideo.addEventListener('ended', () => {
+        indiceAtual = (indiceAtual + 1) % listaVideos.length;
+        playerVideo.src = listaVideos[indiceAtual];
+        playerVideo.play();
+      });
+
+      /* 2. SÍNTESE DE VOZ COM SELEÇÃO DE VOZ NATURAL (ATUALIZADO) */
+      let vozSelecionada = null;
+
+      function carregarMelhorVoz() {
+          const voces = window.speechSynthesis.getVoices();
+          // Procura vozes "Natural" ou "Google" em Português
+          vozSelecionada = voces.find(v => v.lang.includes('pt') && (v.name.includes('Natural') || v.name.includes('Google')))
+                        || voces.find(v => v.lang.includes('pt-BR'))
+                        || voces.find(v => v.lang.includes('pt'));
+      }
+
+      if (speechSynthesis.onvoiceschanged !== undefined) {
+          speechSynthesis.onvoiceschanged = carregarMelhorVoz;
+      }
+      carregarMelhorVoz();
+
+      function anunciarVoz(senha, guiche) {
+          window.speechSynthesis.cancel(); // Cancela chamadas anteriores
+
+          const texto = `Senha ${senha}, favor dirigir-se ao ${guiche}`;
+          const mensagem = new SpeechSynthesisUtterance(texto);
+
+          if (vozSelecionada) {
+              mensagem.voice = vozSelecionada;
+          }
+
+          mensagem.lang = 'pt-BR';
+          mensagem.rate = 0.9;  // Velocidade mais fluida
+          mensagem.pitch = 1.0;
+
+          window.speechSynthesis.speak(mensagem);
+      }
+
+      /* 3. SIMULAÇÃO DE TROCA DE SENHAS */
+      let numeroAtual = 1;
+
+      function chamarProximaSenha() {
+          const numeroFormatado = String(numeroAtual).padStart(3, '0');
+          const novaSenha = `A${numeroFormatado}`;
+          const novoGuiche = `Consultório 0${(numeroAtual % 4) + 1}`;
+
+          document.querySelector('.numero-senha').textContent = novaSenha;
+          document.querySelector('.guiche-info').textContent = novoGuiche;
+
+          anunciarVoz(novaSenha, novoGuiche);
+
+          numeroAtual++;
+      }
+
+      // Ao apertar ESPAÇO, aciona a nova senha e a nova voz
+      document.addEventListener('keydown', (event) => {
+          if (event.code === 'Space') {
+              event.preventDefault();
+              chamarProximaSenha();
+          }
+      });
+    </script>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- O <head> FICA AQUI NO TOPO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Atendimento</title>
+
+    <!-- É AQUI QUE VOCÊ CHAMA O CSS: -->
+    <link rel="stylesheet" href="css/apresentacao.css">
+</head>
+
 </body>
 </html>
