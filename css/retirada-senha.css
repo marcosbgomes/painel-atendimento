@@ -208,6 +208,7 @@
 }
 
 #avaliar-atendimento {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -287,4 +288,44 @@
 
 #btn-confirmar:hover {
     background-color: #12558b;
+}
+
+.btn-avaliacao.selecionada {
+    background-color: #d6eaff;
+    border-color: #1769aa;
+    box-shadow: 0 0 0 2px #1769aa;
+}
+
+#tela-mensagem-avaliacao {
+    position: absolute;
+    background-color: #fff;
+    top: 38px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+
+    transition: 
+        opacity 0.4s ease,
+        transform 0.4s ease,
+        visibility 0.4s;
+}
+
+#tela-mensagem-avaliacao.ativa {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#mensagem-avaliacao {
+    font-size: 20pt;
+    text-align: center;
+    color: #6936b8;
+    margin: 10px;
 }
