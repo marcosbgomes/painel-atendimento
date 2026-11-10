@@ -32,7 +32,10 @@ const papelSenha = document.getElementById("papel-senha");
 
 // Cria evento para todos os botões de retirada de senha
 letrasSenha.forEach((letra) => {
+    // Busca o notão correspondente pelo id
     const botao = document.getElementById(opcoesSenha[letra]);
+
+    // Adiciona o evento de clique para o botão correspondente
     botao.addEventListener("click", () => {
         // Incrementa o contador do tipo selecionado
         contadorSenhas[letra]++;
