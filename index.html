@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/painel.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@retirada-senha/css/retirada-senha.css"> -->
+    <link rel="stylesheet" href="css/retirada-senha.css">
     <title>Painel de Atendimento</title>
 </head>
 <body>
@@ -13,6 +15,78 @@
             <!-- Tela 1: Retirada de senha e avaliação do atendimento -->
             <div id="retirar-senha" class="tela-painel">
                 <h2><span class="icone-titulo">🎫</span> Retirada de Senha</h2>
+                <!-- Tela de seleção de atendimento e impressão de senha -->
+                <div id="imprimir-senha">
+                    <div id="btns-opcoes-atendimento">
+                        <button id="btn-atendimento-geral">Atendimento Geral</button>
+                        <button id="btn-consultas-agendadas">Consultas Agendadas</button>
+                        <button id="btn-atendimento-preferencial">Atendimento Preferencial</button>
+                        <button id="btn-exames-laboratoriais">Exames Laboratoriais</button>
+                    </div>
+                    <div id="impressao-senha">
+                        <div id="impressora">
+                            <div id="papel-senha">
+                                <h3>Sua senha</h3>
+                                <span id="senha-impressa">A-023</span>
+                                <small>Aguarde sua chamada</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="t1-img-hospital">
+                        <!-- <img src="https://raw.githubusercontent.com/marcosbgomes/painel-atendimento/retirada-senha/assets/images/sua-saude.png" class="img-slide" alt="Sua saúde é o nosso maior cuidado."> -->
+                        <img src="assets/images/sua-saude.png" class="img-slide" alt="Sua saúde é o nosso maior cuidado.">
+                        <img src="assets/images/previnir.png" class="img-slide" alt="Previnir também é cuidar.">
+                        <img src="assets/images/espaco-hospital.png" class="img-slide" alt="Espaços de atendimento do hospital.">
+                        <img src="assets/images/saude-mental.png" class="img-slide" alt="Saúde mental importa.">
+                    </div>
+
+                    <button id="bt-avaliar-atendimento">
+                        <span class="icone-avaliar">⭐</span>
+                        Avaliar Atendimento
+                    </button>
+
+                </div>
+
+                <!-- Tela de avaliação do atendimento (Display none por padrão) -->
+                <!-- Alterna a exibição com a tela de impressão de senha -->
+                <div id="avaliar-atendimento">
+                    <div id="opcoes-avaliacao">
+                        <button class="btn-avaliacao" data-nota="muito-ruim">
+                            <span>😠</span>
+                            <small>Muito ruim</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="ruim">
+                            <span>🙁</span>
+                            <small>Ruim</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="regular">
+                            <span>😐</span>
+                            <small>Regular</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="bom">
+                            <span>🙂</span>
+                            <small>Bom</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="excelente">
+                            <span>🤩</span>
+                            <small>Excelente</small>
+                        </button>
+                    </div>
+
+                    <div id="acoes-avaliacao">
+                        <button id="btn-confirmar" type="button">
+                            Confirmar
+                        </button>
+                        <button id="btn-cancelar" type="button">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </div>
+
+                <div id="tela-mensagem-avaliacao">
+                    <p id="mensagem-avaliacao">...</p>
+                </div>
             </div>
 
             <!-- Tela 2: Triagem e atendimento do paciente -->
@@ -29,5 +103,6 @@
             </div>
         </div>
     </div>
+    <script src="js/script.js"></script>
 </body>
 </html>
