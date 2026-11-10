@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/painel.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@retirada-senha/css/retirada-senha.css"> -->
     <link rel="stylesheet" href="css/retirada-senha.css">
+    <link rel="stylesheet" href="css/atendimento.css">
     <title>Painel de Atendimento</title>
 </head>
 <body>
@@ -90,8 +91,65 @@
             </div>
 
             <!-- Tela 2: Triagem e atendimento do paciente -->
-            <div id="triagem" class="tela-painel">
+            <div id="triagem-atendimento" class="tela-painel">
                 <h2><span class="icone-titulo">🩺</span> Triagem e Atendimento</h2>
+
+                <!-- Botões para alternar entre as telas de atendimento -->
+                <div id="btns-atendimento">
+                    <button id="btn-triagem" class="btn-atendimento btn-atendimento-ativo">Triagem</button>
+                    <button id="btn-consultorios" class="btn-atendimento">Consultórios</button>
+                </div>
+
+                <!-- Tela de atendimento: Triagem -->
+                <div id="triagem" class="tela-atendimento atendimento-ativo">
+                    <div id="triagem-tabela">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Senha</th>
+                                    <th>Horário</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr>
+                                    <td>G-007</td>
+                                    <td>12:15</td>
+                                    <td>Atendimento Geral</td>
+                                </tr>
+                                <tr>
+                                    <td>G-007</td>
+                                    <td>12:15</td>
+                                    <td>Atendimento Geral</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="triagem-controles">
+                        <div class="escolha-guiche">
+                            <label for="selecao-guiche">Guichê</label>
+                            <select id="selecao-guiche" class="guiche-triagem">
+                                <option value="1">Guichê 01</option>
+                                <option value="2">Guichê 02</option>
+                                <option value="3">Guichê 03</option>
+                            </select>
+                        </div>
+
+                        <div id="proxima-senha-triagem">
+                            <span>Próxima senha</span>
+                            <strong id="txt-proxima-senha-triagem">G-007</strong>
+                        </div>
+
+                        <button class="btn-controle">Chamar Senha</button>
+                        <button class="btn-controle">Iniciar Triagem</button>
+                    </div>
+                </div>
+
+                <!-- Tela de atendimento: Consultórios -->
+                <div id="consultorios" class="tela-atendimento">
+                    Consultórios
+                </div>
             </div>
         </div>
 

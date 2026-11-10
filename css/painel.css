@@ -2,11 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Georgia, sans-serif;
 }
 
 html {
     font-size: 12pt;
-    font-family: Georgia, sans-serif;
 }
 
 #painel-atendimento {
@@ -43,7 +43,9 @@ html {
     align-items: center;
 }
 
-#triagem {
+#triagem-atendimento {
+    display: flex;
+    flex-direction: column;
     flex: 3;
 }
 
