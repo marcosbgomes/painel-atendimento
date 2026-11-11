@@ -67,6 +67,9 @@ letrasSenha.forEach((letra) => {
         `;
         // Adiciona a nova linha na tabela
         tabelaTriagem.appendChild(novaLinha);
+
+        // Atualiza o campo de próxima senha
+        atualizarProximaSenha();
     });
 });
 
@@ -153,3 +156,92 @@ btn_consultorios.addEventListener("click", () => {
     tela_consultorios.classList.add("atendimento-ativo")
     tela_triagem.classList.remove("atendimento-ativo")
 });
+
+
+// Tabela
+const txtProximaSenha = document.getElementById("txt-proxima-senha-triagem");
+const corpoTabelaTriagem = document.querySelector("#triagem-tabela tbody");
+
+// A função verifica se tem alguma linha selecionada para ser chamada como próxima senha.
+// Se não houver, a primeira linha da tabela será a próxima senha.
+// Se a tabela estiver vazia, o campo de próxima senha mostra apenas "---".
+function atualizarProximaSenha() {
+    const linhaSelecionada = corpoTabelaTriagem.querySelector(".proxima-senha-selecionada");
+
+    if (linhaSelecionada) {
+        txtProximaSenha.textContent = linhaSelecionada.cells[0].textContent;
+    } else {
+        const primeiraLinha = corpoTabelaTriagem.querySelector("tr");
+
+        if (primeiraLinha) {
+            txtProximaSenha.textContent = primeiraLinha.cells[0].textContent;
+        } else {
+            txtProximaSenha.textContent = "---";
+        }
+    }
+}
+
+// Evento para clique nas linhas da tabela de triagem
+corpoTabelaTriagem.addEventListener("click", (event) => {
+    // Linha clicada
+    const linhaSelecionada = event.target.closest("tr");
+
+    if (!linhaSelecionada) return;
+
+    if (linhaSelecionada.classList.contains("proxima-senha-selecionada")) {
+        linhaSelecionada.classList.remove("proxima-senha-selecionada");
+    } else {
+        // Remove seleção da anteior primeiro
+        const linhaAnterior = corpoTabelaTriagem.querySelector(".proxima-senha-selecionada");
+        if (linhaAnterior) {
+            linhaAnterior.classList.remove("proxima-senha-selecionada");
+        }
+
+        // Marca a nova linha
+        linhaSelecionada.classList.add("proxima-senha-selecionada");
+    }
+
+    // Atualiza o campo de próxima senha
+    atualizarProximaSenha();
+});
+
+atualizarProximaSenha();
+
+
+// Realização da triagem
+const telaTriagemChamada = document.getElementById("triagem-chamada");
+const telaTriagemRealiza = document.getElementById("triagem-realiza");
+const btnIniciarTriagem = document.getElementById("btn-iniciar-triagem");
+const btnsGravidade = document.querySelectorAll(".btn-gravidade");
+
+// Seleção de gravidade
+btnsGravidade.forEach(botao => {
+    botao.addEventListener("click", () => {
+        btnsGravidade.forEach(btn => btn.classList.remove("selecionado"));
+        botao.classList.add("selecionado");
+    });
+});
+
+// Realização da triagem
+btnIniciarTriagem.addEventListener("click", () => {
+    if (txtProximaSenha.textContent === "---") return;
+
+    // Limpa o campo de nome do paciente
+    const inputNomePaciente = document.getElementById("nome-paciente");
+    inputNomePaciente.value = "";
+
+    // Desmarca qualquer botão de gravidade selecionado
+    btnsGravidade.forEach(btn => btn.classList.remove("selecionado"));
+
+    document.getElementById("senha-em-triagem").textContent = txtProximaSenha.textContent;
+
+    telaTriagemChamada.classList.remove("triagem-ativa");
+    telaTriagemRealiza.classList.add("triagem-ativa");
+});
+
+const btnCancelarTriagem = document.getElementById("cancelar-triagem");
+btnCancelarTriagem.addEventListener("click", () => {
+    telaTriagemRealiza.classList.remove("triagem-ativa");
+    telaTriagemChamada.classList.add("triagem-ativa");
+});
+

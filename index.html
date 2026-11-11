@@ -102,53 +102,111 @@
 
                 <!-- Tela de atendimento: Triagem -->
                 <div id="triagem" class="tela-atendimento atendimento-ativo">
-                    <div id="triagem-tabela">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Senha</th>
-                                    <th>Horário</th>
-                                    <th>Tipo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- <tr>
-                                    <td>G-007</td>
-                                    <td>12:15</td>
-                                    <td>Atendimento Geral</td>
-                                </tr>
-                                <tr>
-                                    <td>G-007</td>
-                                    <td>12:15</td>
-                                    <td>Atendimento Geral</td>
-                                </tr> -->
-                            </tbody>
-                        </table>
+                    <div id="triagem-chamada" class="triagem triagem-ativa">
+                        <div id="triagem-tabela">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Senha</th>
+                                        <th>Horário</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+    
+                        <div id="triagem-controles">
+                            <div class="escolha-guiche">
+                                <label for="selecao-guiche">Guichê</label>
+                                <select id="selecao-guiche" class="guiche-triagem">
+                                    <option value="1">Guichê 01</option>
+                                    <option value="2">Guichê 02</option>
+                                    <option value="3">Guichê 03</option>
+                                </select>
+                            </div>
+    
+                            <div id="proxima-senha-triagem">
+                                <span>Próxima senha</span>
+                                <strong id="txt-proxima-senha-triagem">---</strong>
+                            </div>
+    
+                            <button class="btn-controle">Chamar Senha</button>
+                            <button id="btn-iniciar-triagem" class="btn-controle">Iniciar Triagem</button>
+                        </div>
                     </div>
 
-                    <div id="triagem-controles">
-                        <div class="escolha-guiche">
-                            <label for="selecao-guiche">Guichê</label>
-                            <select id="selecao-guiche" class="guiche-triagem">
-                                <option value="1">Guichê 01</option>
-                                <option value="2">Guichê 02</option>
-                                <option value="3">Guichê 03</option>
-                            </select>
-                        </div>
+                    <!-- Tela de atendimento: Realização da Triagem -->
+                    <div id="triagem-realiza" class="triagem">
+                        <div id="dados-triagem-realiza">
+                            <div id="titulo-triagem">
+                                <p>Realizar Triagem: <span id="senha-em-triagem"></span></p>
+                            </div>
 
-                        <div id="proxima-senha-triagem">
-                            <span>Próxima senha</span>
-                            <strong id="txt-proxima-senha-triagem">G-007</strong>
-                        </div>
+                            <div id="campos-triagem">
+                                <div class="campo-triagem">
+                                    <label for="nome-paciente">Nome do Paciente</label>
+                                    <input type="text" id="nome-paciente" placeholder="Digite o nome do paciente..." class="input-triagem-texto">
+                                </div>
+                                <div class="campo-triagem">
+                                    <label>Gravidade</label>
+                                    <div id="btns-gravidade">
+                                        <button class="btn-gravidade baixa" data-risco="Baixo">Baixa</button>
+                                        <button class="btn-gravidade moderada" data-risco="Moderado">Moderada</button>
+                                        <button class="btn-gravidade alta" data-risco="Alto">Alta</button>
+                                        <button class="btn-gravidade emergencia" data-risco="Emergência">Emergência</button>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <button class="btn-controle">Chamar Senha</button>
-                        <button class="btn-controle">Iniciar Triagem</button>
+                            <div id="acao-triagem">
+                                <button id="cancelar-triagem" class="btn-controle">Cancelar</button>
+                                <button id="concluir-triagem" class="btn-controle">Finalizar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Tela de atendimento: Consultórios -->
                 <div id="consultorios" class="tela-atendimento">
-                    Consultórios
+                    <div id="consultorio-tabela">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Senha</th>
+                                    <th>Gravidade</th>
+                                    <th>Nome</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>G-001</td>
+                                    <td>Emergência</td>
+                                    <td>José Aparecido Barbosa Dos Santos Filho Neto</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="consultorio-controles">
+                        <div class="escolha-consultorio">
+                            <label for="selecao-consultorio">Consultório</label>
+                            <select id="selecao-consultorio" class="consultorio-atendimento">
+                                <option value="1">Consultório 01</option>
+                                <option value="2">Consultório 02</option>
+                                <option value="3">Consultório 03</option>
+                            </select>
+                        </div>
+
+                        <div id="proximo-paciente">
+                            <span>Próximo paciente</span>
+                            <strong id="txt-proximo-paciente">---</strong>
+                        </div>
+
+                        <button class="btn-controle">Chamar Paciente</button>
+                        <button id="btn-finalizar-atendimento" class="btn-controle">Finalizar Atendimento</button>
+                    </div>
                 </div>
             </div>
         </div>

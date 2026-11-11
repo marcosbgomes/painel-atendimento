@@ -28,7 +28,7 @@
     padding: 10px;
     width: 100%;
     opacity: 0;
-    /* background-color: #eeeeee; */
+    min-height: 0;
 }
 
 .atendimento-ativo {
@@ -36,16 +36,40 @@
     opacity: 1;
 }
 
+.triagem {
+    display: none;
+    flex: 1;
+    width: 100%;
+}
+
+.triagem-ativa {
+    display: flex;
+}
+
+#dados-triagem-realiza  {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    gap: 10px;
+}
+
 
 /* ********************** ÁREA DA TRIAGEM ********************** */
 
-#triagem-tabela {
+/* Chamada */
+
+#triagem-tabela,
+#consultorio-tabela {
     flex: 2;
     border-right: 1px solid #ccc;
     margin-right: 10px;
+    overflow-y: auto;
+    max-height: 100%
 }
 
-#triagem-controles {
+#triagem-controles,
+#consultorio-controles {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -53,42 +77,85 @@
     gap: 15px;
 }
 
-#triagem-tabela table {
+#triagem-tabela table,
+#consultorio-tabela table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
 
-#triagem-tabela th {
-    background-color: #00a0a04b;
+#triagem-tabela th,
+#consultorio-tabela th {
+    background-color: #ccecec;
     padding: 10px;
     font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
-#triagem-tabela td {
+#triagem-tabela td,
+#consultorio-tabela td {
     padding: 10px;
     border-bottom: 1px solid #eee;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.9rem;
 }
 
-#triagem-tabela tbody tr:hover {
-    background-color: #eef6fc;
+/* Fixa largura da primeira coluna */
+#triagem-tabela th:nth-child(1),
+#triagem-tabela td:nth-child(1),
+#consultorio-tabela th:nth-child(1),
+#consultorio-tabela td:nth-child(1) {
+    width: 80px;
 }
 
-.escolha-guiche {
+/* Fixa largura da segunda coluna */
+#triagem-tabela th:nth-child(2),
+#triagem-tabela td:nth-child(2),
+#consultorio-tabela th:nth-child(2),
+#consultorio-tabela td:nth-child(2) {
+    width: 100px;
+}
+
+#triagem-tabela tbody tr,
+#consultorio-tabela tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#triagem-tabela tbody tr:hover,
+#consultorio-tabela tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Linha da tabela selecionada */
+#triagem-tabela tbody tr.proxima-senha-selecionada {
+    background-color: #d6eaff;
+}
+
+#triagem-tabela tbody tr.proxima-senha-selecionada td {
+    font-weight: bold;
+    /* color: #12558b; */
+    color: #4f8fe8;
+}
+
+.escolha-guiche,
+.escolha-consultorio {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.escolha-guiche label {
+.escolha-guiche label,
+.escolha-consultorio label {
     font-weight: 600;
     font-size: 1.1rem;
     color: #333;
 }
 
-.guiche-triagem {
+.guiche-triagem,
+.consultorio-atendimento {
     padding: 8px;
     font-size: 1.1rem;
     border-radius: 8px;
@@ -98,7 +165,8 @@
     outline: none;  /* remove a borda do foco */
 }
 
-#proxima-senha-triagem {
+#proxima-senha-triagem,
+#proximo-paciente {
     background-color: #eef6fc;
     border: 1px solid #b3d8f8;
     border-radius: 8px;
@@ -110,12 +178,14 @@
     margin-bottom: 5px;
 }
 
-#proxima-senha-triagem span {
+#proxima-senha-triagem span,
+#proximo-paciente span {
     font-size: 1rem;
     color: #555;
 }
 
-#txt-proxima-senha-triagem {
+#txt-proxima-senha-triagem,
+#txt-proximo-paciente {
     font-size: 2rem;
     color: #4f8fe8;
     font-weight: bold;
@@ -136,4 +206,107 @@
 .btn-controle:hover {
     background-color: #00a0a0;
     color: #fff;
+}
+
+
+/* Relização da triagem */
+#titulo-triagem {
+    padding: 20px 0 10px 0px;
+    border-bottom: 2px solid #00a0a0;
+    font-weight: bold;
+}
+#titulo-triagem p {
+    font-size: 1.5rem;
+    color: #00a0a0;
+}
+
+#titulo-triagem span {
+    font-size: 2.2rem;
+    color: #4f8fe8;
+}
+
+#campos-triagem {
+    margin-top: 20px;
+}
+
+.campo-triagem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.campo-triagem label {
+    font-weight: 600;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.input-triagem-texto {
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 2px solid #4f8fe8;
+    outline: none;
+}
+
+#btns-gravidade {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-gravidade {
+    flex: 1;
+    min-width: 120px;
+    padding: 15px 10px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    color: #fff;
+}
+
+.btn-gravidade:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+.baixa {
+    background-color: #33cc33;
+}
+
+.moderada {
+    background-color: #ffd633;
+}
+
+.alta {
+    background-color: #ff8533;
+}
+
+.emergencia {
+    background-color: #ff3333;
+}
+
+.btn-gravidade.selecionado {
+    opacity: 1;
+    border-color: #555;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#acao-triagem {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    /* margin-top: 20px; */
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+#acao-triagem button {
+    width: 30%;
 }
