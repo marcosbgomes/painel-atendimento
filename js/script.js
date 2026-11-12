@@ -213,6 +213,7 @@ const telaTriagemChamada = document.getElementById("triagem-chamada");
 const telaTriagemRealiza = document.getElementById("triagem-realiza");
 const btnIniciarTriagem = document.getElementById("btn-iniciar-triagem");
 const btnsGravidade = document.querySelectorAll(".btn-gravidade");
+const btnCancelarTriagem = document.getElementById("cancelar-triagem");
 
 // Seleção de gravidade
 btnsGravidade.forEach(botao => {
@@ -239,9 +240,105 @@ btnIniciarTriagem.addEventListener("click", () => {
     telaTriagemRealiza.classList.add("triagem-ativa");
 });
 
-const btnCancelarTriagem = document.getElementById("cancelar-triagem");
+// Cancela a triagem e fecha a janela
 btnCancelarTriagem.addEventListener("click", () => {
     telaTriagemRealiza.classList.remove("triagem-ativa");
     telaTriagemChamada.classList.add("triagem-ativa");
 });
 
+
+// Consultório
+const btnConcluitTriagem = document.getElementById("concluir-triagem");
+const corpoTabelaConsultorio = document.querySelector("#consultorio-tabela tbody");
+const txtProximoPaciente = document.getElementById("txt-proximo-paciente");
+
+btnConcluitTriagem.addEventListener("click", () => {
+    const senha = document.getElementById("senha-em-triagem").textContent;
+    const nomePaciente = document.getElementById("nome-paciente").value.trim();
+    const btnGravidadeSelecionado = document.querySelector(".btn-gravidade.selecionado");
+
+    if (nomePaciente === "" || !btnGravidadeSelecionado) return;
+
+    // Pega o atributo data-risco
+    const gravidade = btnGravidadeSelecionado.dataset.risco;
+
+    const novaLinhaConsultorio = document.createElement("tr");
+    novaLinhaConsultorio.innerHTML = `
+        <td>${senha}</td>
+        <td>${gravidade}</td>
+        <td>${nomePaciente}</td>
+    `
+    corpoTabelaConsultorio.appendChild(novaLinhaConsultorio);
+
+    // Remove a senha da tabela de triagem
+    const linhasTriagem = corpoTabelaTriagem.querySelectorAll("tr");
+    linhasTriagem.forEach((linha) => {
+        if (linha.cells[0].textContent === senha) {
+            linha.remove();
+        }
+    });
+
+    // Volta para a tela de chamada de triagem
+    telaTriagemRealiza.classList.remove("triagem-ativa");
+    telaTriagemChamada.classList.add("triagem-ativa");
+
+    atualizarProximaSenha();
+    atualizarProximoPaciente();
+});
+
+
+function atualizarProximoPaciente() {
+    const linhaSelecionada = corpoTabelaConsultorio.querySelector(".proxima-senha-selecionada");
+
+    if (linhaSelecionada) {
+        txtProximoPaciente.textContent = linhaSelecionada.cells[0].textContent;
+    } else {
+        const primeiraLinha = corpoTabelaConsultorio.querySelector("tr");
+
+        if (primeiraLinha) {
+            txtProximoPaciente.textContent = primeiraLinha.cells[0].textContent;
+        } else {
+            txtProximoPaciente.textContent = "---";
+        }
+    }
+}
+
+
+// Evento para selecionar linhas na tabela do consultório
+corpoTabelaConsultorio.addEventListener("click", (event) => {
+    const linhaSelecionada = event.target.closest("tr");
+
+    if (!linhaSelecionada) return;
+
+    if (linhaSelecionada.classList.contains("proxima-senha-selecionada")) {
+        linhaSelecionada.classList.remove("proxima-senha-selecionada");
+    } else {
+        const linhaAnterior = corpoTabelaConsultorio.querySelector(".proxima-senha-selecionada");
+        if (linhaAnterior) {
+            linhaAnterior.classList.remove("proxima-senha-selecionada");
+        }
+        linhaSelecionada.classList.add("proxima-senha-selecionada");
+    }
+
+    atualizarProximoPaciente();
+});
+
+
+// Finaliza atendimento de um paciente
+// Remove da tabela
+const finalizarAtendimento = document.getElementById("btn-finalizar-atendimento");
+finalizarAtendimento.addEventListener("click", () => {
+    const senha = document.getElementById("txt-proximo-paciente").textContent;
+    const linhasConsultorio = corpoTabelaConsultorio.querySelectorAll("tr");
+    
+    linhasConsultorio.forEach((linha) => {
+        if (linha.cells[0].textContent === senha) {
+            linha.remove();
+        }
+    });
+
+    atualizarProximoPaciente();
+});
+
+
+atualizarProximoPaciente();

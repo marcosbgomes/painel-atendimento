@@ -130,13 +130,14 @@
 }
 
 /* Linha da tabela selecionada */
-#triagem-tabela tbody tr.proxima-senha-selecionada {
+#triagem-tabela tbody tr.proxima-senha-selecionada,
+#consultorio-tabela tbody tr.proxima-senha-selecionada {
     background-color: #d6eaff;
 }
 
-#triagem-tabela tbody tr.proxima-senha-selecionada td {
+#triagem-tabela tbody tr.proxima-senha-selecionada td,
+#consultorio-tabela tbody tr.proxima-senha-selecionada td {
     font-weight: bold;
-    /* color: #12558b; */
     color: #4f8fe8;
 }
 
