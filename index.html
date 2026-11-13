@@ -7,6 +7,7 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@retirada-senha/css/retirada-senha.css"> -->
     <link rel="stylesheet" href="css/retirada-senha.css">
     <link rel="stylesheet" href="css/atendimento.css">
+    <link rel="stylesheet" href="css/apresentacao.css">
     <title>Painel de Atendimento</title>
 </head>
 <body>
@@ -132,7 +133,7 @@
                                 <strong id="txt-proxima-senha-triagem">---</strong>
                             </div>
     
-                            <button class="btn-controle">Chamar Senha</button>
+                            <button id="btn-chamar-senha" class="btn-controle">Chamar Senha</button>
                             <button id="btn-iniciar-triagem" class="btn-controle">Iniciar Triagem</button>
                         </div>
                     </div>
@@ -199,7 +200,7 @@
                             <strong id="txt-proximo-paciente">---</strong>
                         </div>
 
-                        <button class="btn-controle">Chamar Paciente</button>
+                        <button id="btn-chamar-paciente-consultorio" class="btn-controle">Chamar Paciente</button>
                         <button id="btn-finalizar-atendimento" class="btn-controle">Finalizar Atendimento</button>
                     </div>
                 </div>
@@ -211,9 +212,34 @@
             <!-- Tela 3: Vídeos, anúncios e chamadas de senhas -->
             <div id="chamada-senhas" class="tela-painel">
                 <h2><span class="icone-titulo">🔔</span> Chamada de Senhas</h2>
+                
+                <!-- Container da senha chamada no painel principal -->
+                <div id="painel-senha-atual">
+                    <span class="rotulo-senha">SENHA</span>
+                    <h1 id="painel-txt-senha">---</h1>
+                    <span class="rotulo-local">LOCAL</span>
+                    <h2 id="painel-txt-local">---</h2>
+                </div>
+
+                <!-- NOVO: Histórico de Senhas Chamadas -->
+                <div id="painel-historico">
+                    <h3>Últimas Chamadas</h3>
+                    <div id="lista-historico">
+                        <!-- As senhas anteriores vão aparecer aqui dinamicamente -->
+                        <span class="historico-vazio">Nenhuma senha anterior</span>
+                    </div>
+                </div>
+
+                <!-- Container do Vídeo Institucional / Anúncios -->
+              <div id="painel-video-container">
+    <video id="video-painel" autoplay muted playsinline></video>
+</div>
+    </video>
+</div>
+
             </div>
         </div>
-    </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>

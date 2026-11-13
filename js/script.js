@@ -1,3 +1,5 @@
+const painelTxtSenha = document.getElementById("painel-txt-senha");
+const painelTxtLocal = document.getElementById("painel-txt-local");
 const telaAvalicao = document.getElementById("avaliar-atendimento");
 const btnAvaliar = document.getElementById("bt-avaliar-atendimento");
 const btnCancelarAvaliacao = document.getElementById("btn-cancelar");
@@ -278,6 +280,33 @@ btnConcluitTriagem.addEventListener("click", () => {
         }
     });
 
+    // --- INTEGRAÇÃO COM O PAINEL DE CHAMADA DA DIREITA ---
+    const painelTxtSenha = document.getElementById("painel-txt-senha"); // ID do visor grande de senha
+    const painelTxtLocal = document.getElementById("painel-txt-local"); // ID do visor grande de local
+    const selectConsultorio = document.getElementById("consultorios-select"); // Ajuste se o ID do select do consultório for diferente
+
+    // 1. Salva a senha anterior no histórico antes de substituir (se houver histórico)
+    if (painelTxtSenha && painelTxtSenha.textContent !== "---" && typeof historicoSenhas !== 'undefined') {
+        const senhaAntiga = painelTxtSenha.textContent;
+        const localAntigo = painelTxtLocal ? painelTxtLocal.textContent : "Consultório";
+       
+        historicoSenhas.unshift(`${senhaAntiga} (${localAntigo})`);
+        if (historicoSenhas.length > 4) {
+            historicoSenhas.pop();
+        }
+        if (typeof atualizarHistoricoVisual === 'function') {
+            atualizarHistoricoVisual();
+        }
+    }
+
+    // 2. Atualiza o painel grande da direita com a senha do paciente e o consultório escolhido
+    if (painelTxtSenha) painelTxtSenha.textContent = senha;
+    if (painelTxtLocal) {
+        const nomeConsultorio = selectConsultorio ? selectConsultorio.value : "Consultório 01";
+        painelTxtLocal.textContent = "Consultório " + nomeConsultorio;
+    }
+    // ----------------------------------------------------
+
     // Volta para a tela de chamada de triagem
     telaTriagemRealiza.classList.remove("triagem-ativa");
     telaTriagemChamada.classList.add("triagem-ativa");
@@ -330,7 +359,7 @@ const finalizarAtendimento = document.getElementById("btn-finalizar-atendimento"
 finalizarAtendimento.addEventListener("click", () => {
     const senha = document.getElementById("txt-proximo-paciente").textContent;
     const linhasConsultorio = corpoTabelaConsultorio.querySelectorAll("tr");
-    
+   
     linhasConsultorio.forEach((linha) => {
         if (linha.cells[0].textContent === senha) {
             linha.remove();
@@ -342,3 +371,156 @@ finalizarAtendimento.addEventListener("click", () => {
 
 
 atualizarProximoPaciente();
+
+// Evento para o botão "Chamar Senha" da Triagem atualizar o painel da direita e o histórico
+const btnChamarSenha = document.getElementById("btn-chamar-senha");
+const listaHistorico = document.getElementById("lista-historico");
+let historicoSenhas = [];
+
+if (btnChamarSenha) {
+    btnChamarSenha.addEventListener("click", () => {
+        if (txtProximaSenha.textContent === "---") return;
+
+        const senhaAtualTexto = painelTxtSenha.textContent;
+        const localAtualTexto = painelTxtLocal.textContent;
+
+        if (senhaAtualTexto !== "---") {
+            historicoSenhas.unshift(`${senhaAtualTexto} (${localAtualTexto})`);
+            if (historicoSenhas.length > 4) {
+                historicoSenhas.pop();
+            }
+        }
+
+        const senhaChamada = txtProximaSenha.textContent;
+        const guichEscolhido = "Guichê " + document.getElementById("selecao-guiche").value;
+
+        painelTxtSenha.textContent = senhaChamada;
+        painelTxtLocal.textContent = guichEscolhido;
+
+        atualizarHistoricoVisual();
+
+        // Aciona a voz natural do Google na triagem
+        falarChamadaNatural(`Senha ${senhaChamada}, ${guichEscolhido}.`);
+    });
+}
+
+function atualizarHistoricoVisual() {
+    listaHistorico.innerHTML = "";
+
+    if (historicoSenhas.length === 0) {
+        listaHistorico.innerHTML = '<span class="historico-vazio">Nenhuma senha anterior</span>';
+        return;
+    }
+
+    historicoSenhas.forEach((item) => {
+        const span = document.createElement("span");
+        span.classList.add("item-historico");
+        span.textContent = item;
+        listaHistorico.appendChild(span);
+    });
+}
+
+// --- Playlist Contínua de Vídeos ---
+const videosPlaylist = [
+    "assets/videos/0_Doctor_Father_1280x720.mp4",
+    "assets/videos/49808-458438856_medium.mp4",
+    "assets/videos/144001-784164306_medium.mp4",
+    "assets/videos/6254818_Person_People_1280x720.mp4",
+    "assets/videos/49816-458438881_medium.mp4"
+];
+
+let indiceVideoAtual = 0;
+const elementoVideo = document.getElementById("video-painel");
+
+function iniciarPlaylist() {
+    if (!elementoVideo || videosPlaylist.length === 0) return;
+
+    // Define o arquivo
+    elementoVideo.src = videosPlaylist[indiceVideoAtual];
+    elementoVideo.load();
+   
+    // Força a reprodução e trata caso o navegador bloqueie
+    const playPromise = elementoVideo.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log("Autoplay impedido, aguardando clique na página.");
+        });
+    }
+
+    // Avança para o próximo quando o vídeo acabar
+    elementoVideo.onended = () => {
+        indiceVideoAtual++;
+        if (indiceVideoAtual >= videosPlaylist.length) {
+            indiceVideoAtual = 0;
+        }
+        elementoVideo.src = videosPlaylist[indiceVideoAtual];
+        elementoVideo.load();
+        elementoVideo.play();
+    };
+}
+
+// Inicia assim que a página carregar
+window.addEventListener("DOMContentLoaded", () => {
+    iniciarPlaylist();
+});
+
+// --- Lógica do Botão de Chamar Paciente no Consultório ---
+const btnChamarPacienteConsultorio = document.getElementById("btn-chamar-paciente-consultorio");
+const selecaoConsultorio = document.getElementById("selecao-consultorio");
+
+if (btnChamarPacienteConsultorio) {
+    btnChamarPacienteConsultorio.addEventListener("click", () => {
+        // Pega a tabela de consultórios para ver quem é o próximo paciente
+        const corpoTabelaConsultorio = document.querySelector("#consultorio-tabela tbody");
+        const primeiraLinha = corpoTabelaConsultorio.querySelector("tr");
+
+        if (!primeiraLinha) return; // Se não tiver ninguém na tabela, não faz nada
+
+        // Extrai os dados da primeira linha da tabela do consultório
+        const senhaParaChamar = primeiraLinha.cells[0].textContent; // Coluna da Senha
+        const nomePaciente = primeiraLinha.cells[2].textContent;    // Coluna do Nome
+
+        const numeroConsultorio = selecaoConsultorio ? selecaoConsultorio.value : "1";
+        const localFormatado = `Consultório ${numeroConsultorio}`;
+
+        const painelTxtSenha = document.getElementById("painel-txt-senha");
+        const painelTxtLocal = document.getElementById("painel-txt-local");
+
+        // 1. Move a chamada anterior para o histórico antes de substituir
+        if (painelTxtSenha && painelTxtSenha.textContent !== "---" && typeof historicoSenhas !== 'undefined') {
+            const senhaAntiga = painelTxtSenha.textContent;
+            const localAntigo = painelTxtLocal ? painelTxtLocal.textContent : "Local";
+           
+            historicoSenhas.unshift(`${senhaAntiga} (${localAntigo})`);
+            if (historicoSenhas.length > 4) {
+                historicoSenhas.pop();
+            }
+            if (typeof atualizarHistoricoVisual === 'function') {
+                atualizarHistoricoVisual();
+            }
+        }
+
+        // 2. Atualiza o painel principal mostrando a Senha e o Nome do Paciente junto
+        if (painelTxtSenha) {
+            painelTxtSenha.textContent = `${senhaParaChamar}\n${nomePaciente}`;
+        }
+        if (painelTxtLocal) {
+            painelTxtLocal.textContent = localFormatado;
+        }
+
+        // Aciona a voz natural do Google no consultório anunciando de forma fluida
+        falarChamadaNatural(`Senha ${senhaParaChamar}, paciente ${nomePaciente}, para o ${localFormatado}.`);
+    });
+}
+
+// --- Função de Voz com Áudio Natural do Google ---
+function falarChamadaNatural(textoParaFalar) {
+    const textoCodificado = encodeURIComponent(textoParaFalar);
+    const urlAudio = `https://translate.google.com/translate_tts?ie=UTF-8&q=${textoCodificado}&tl=pt-BR&client=tw-ob`;
+
+    const audio = new Audio(urlAudio);
+    audio.volume = 1.0;
+    audio.play().catch(error => {
+        console.log("Erro ao reproduzir áudio do Google:", error);
+    });
+}
