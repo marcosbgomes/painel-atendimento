@@ -1,15 +1,5 @@
-/* =================================================================
-   ESTILOS DO PAINEL DA DIREITA (DIVIDIDO MEIO A MEIO)
-   ================================================================= */
-
-/* Organiza a coluna da direita inteira */
 #campo-apresentacao {
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
     box-sizing: border-box;
-    background: #f4f6f9;
-    height: 100vh;
     overflow: hidden;
 }
 
@@ -22,11 +12,11 @@
     gap: 15px; /* Espaço entre a senha e o vídeo */
 }
 
-/* Caixa da Senha: agora ocupa exatamente 50% do espaço (flex: 1) */
+/* Caixa da Senha: agora ocupa exatamente 50% do espaço */
 #painel-senha-atual {
-    flex: 1;
+    position: relative;
+    flex: 4;
     background: #ffffff;
-    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     border: 2px solid #e0e0e0;
@@ -56,13 +46,13 @@
 #painel-txt-local {
     font-size: 2rem;
     color: #333;
-    margin: 5px 0;
+    margin-top: 20px;
     font-weight: bold;
 }
 
 /* Container do Vídeo com posicionamento relativo para o fundo */
 #painel-video-container {
-    flex: 1;
+    flex: 4;
     width: 100%;
     min-height: 0;
     border-radius: 12px;
@@ -75,20 +65,6 @@
     align-items: center;
 }
 
-/* Cria o fundo preenchido e desfocado nas laterais */
-/* Container do Vídeo */
-#painel-video-container {
-    flex: 1;
-    width: 100%;
-    min-height: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 /* Vídeo rodando fluído e em loop */
 #video-painel {
@@ -100,6 +76,7 @@
 }
 
 #painel-historico {
+    flex: 1;
     background: #ffffff;
     padding: 10px 15px;
     border-radius: 12px;
@@ -135,4 +112,29 @@
     color: #888;
     font-size: 0.9rem;
     font-style: italic;
+}
+
+
+/* Pontuação da avaliaçãoe relógio */
+#pontuacao-atendimento {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    color: #666;
+    background-color: #f8f8f8;
+    padding: 20px;
+    gap: 5px;
+}
+
+#relogio, #media-avaliacao {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#relogio {
+    margin-bottom: 10px;
 }

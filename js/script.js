@@ -78,11 +78,11 @@ letrasSenha.forEach((letra) => {
 
 // Sistema de avaliação de atendimento
 let avaliacoes = {
-    "muito-ruim": 0,
-    "ruim": 0,
-    "regular": 0,
-    "bom": 0,
-    "excelente": 0
+    "muito-ruim": 1,
+    "ruim": 2,
+    "regular": 3,
+    "bom": 4,
+    "excelente": 5
 };
 const opcoesAvaliacao = document.querySelectorAll(".btn-avaliacao");
 opcoesAvaliacao.forEach((opcao) => {
@@ -105,7 +105,9 @@ btnConfirmarAv.addEventListener("click", () => {
     }
 
     const nota = opcaoSelecionada.dataset.nota;
-    avaliacoes[nota]++;
+    listaAvaliacoes.push(avaliacoes[nota]);
+    atualizarMediaAvaliacao();
+
     // Editar essa mensagem depois
     mensagemAv.textContent = "Obrigado por sua avaliação!";
 
@@ -285,11 +287,11 @@ btnConcluitTriagem.addEventListener("click", () => {
     const painelTxtLocal = document.getElementById("painel-txt-local"); // ID do visor grande de local
     const selectConsultorio = document.getElementById("consultorios-select"); // Ajuste se o ID do select do consultório for diferente
 
-    // 1. Salva a senha anterior no histórico antes de substituir (se houver histórico)
+    // Salva a senha anterior no histórico antes de substituir (se houver histórico)
     if (painelTxtSenha && painelTxtSenha.textContent !== "---" && typeof historicoSenhas !== 'undefined') {
         const senhaAntiga = painelTxtSenha.textContent;
         const localAntigo = painelTxtLocal ? painelTxtLocal.textContent : "Consultório";
-       
+
         historicoSenhas.unshift(`${senhaAntiga} (${localAntigo})`);
         if (historicoSenhas.length > 4) {
             historicoSenhas.pop();
@@ -299,7 +301,7 @@ btnConcluitTriagem.addEventListener("click", () => {
         }
     }
 
-    // 2. Atualiza o painel grande da direita com a senha do paciente e o consultório escolhido
+    // Atualiza o painel grande da direita com a senha do paciente e o consultório escolhido
     if (painelTxtSenha) painelTxtSenha.textContent = senha;
     if (painelTxtLocal) {
         const nomeConsultorio = selectConsultorio ? selectConsultorio.value : "Consultório 01";
@@ -359,7 +361,7 @@ const finalizarAtendimento = document.getElementById("btn-finalizar-atendimento"
 finalizarAtendimento.addEventListener("click", () => {
     const senha = document.getElementById("txt-proximo-paciente").textContent;
     const linhasConsultorio = corpoTabelaConsultorio.querySelectorAll("tr");
-   
+
     linhasConsultorio.forEach((linha) => {
         if (linha.cells[0].textContent === senha) {
             linha.remove();
@@ -377,32 +379,37 @@ const btnChamarSenha = document.getElementById("btn-chamar-senha");
 const listaHistorico = document.getElementById("lista-historico");
 let historicoSenhas = [];
 
-if (btnChamarSenha) {
-    btnChamarSenha.addEventListener("click", () => {
-        if (txtProximaSenha.textContent === "---") return;
+btnChamarSenha.addEventListener("click", () => {
+    if (txtProximaSenha.textContent === "---") return;
 
-        const senhaAtualTexto = painelTxtSenha.textContent;
-        const localAtualTexto = painelTxtLocal.textContent;
+    const senhaChamada = txtProximaSenha.textContent;
+    const guichEscolhido = "Guichê " + document.getElementById("selecao-guiche").value;
 
-        if (senhaAtualTexto !== "---") {
-            historicoSenhas.unshift(`${senhaAtualTexto} (${localAtualTexto})`);
-            if (historicoSenhas.length > 4) {
-                historicoSenhas.pop();
-            }
+    painelTxtSenha.textContent = senhaChamada;
+    painelTxtLocal.textContent = guichEscolhido;
+
+    const senhaEGuiche = `${senhaChamada} (${guichEscolhido})`;
+    let salvarNoHistorico = true;
+
+    if (historicoSenhas.length > 0) {
+        if (historicoSenhas[0] === senhaEGuiche) {
+            salvarNoHistorico = false;
         }
+    }
 
-        const senhaChamada = txtProximaSenha.textContent;
-        const guichEscolhido = "Guichê " + document.getElementById("selecao-guiche").value;
+    if (salvarNoHistorico) {
+        historicoSenhas.unshift(`${senhaChamada} (${guichEscolhido})`);
+        if (historicoSenhas.length > 4) {
+            historicoSenhas.pop();
+        }
+    }
 
-        painelTxtSenha.textContent = senhaChamada;
-        painelTxtLocal.textContent = guichEscolhido;
+    atualizarHistoricoVisual();
 
-        atualizarHistoricoVisual();
+    // Aciona a voz natural do Google na triagem
+    falarChamadaNatural(`Senha ${senhaChamada}, ${guichEscolhido}.`);
+});
 
-        // Aciona a voz natural do Google na triagem
-        falarChamadaNatural(`Senha ${senhaChamada}, ${guichEscolhido}.`);
-    });
-}
 
 function atualizarHistoricoVisual() {
     listaHistorico.innerHTML = "";
@@ -422,11 +429,11 @@ function atualizarHistoricoVisual() {
 
 // --- Playlist Contínua de Vídeos ---
 const videosPlaylist = [
-    "assets/videos/0_Doctor_Father_1280x720.mp4",
-    "assets/videos/49808-458438856_medium.mp4",
-    "assets/videos/144001-784164306_medium.mp4",
-    "assets/videos/6254818_Person_People_1280x720.mp4",
-    "assets/videos/49816-458438881_medium.mp4"
+    "assets/videos/apresentcao_01.mp4",
+    "assets/videos/apresentcao_03.mp4",
+    "assets/videos/apresentcao_04.mp4",
+    "assets/videos/apresentcao_05.mp4",
+    "assets/videos/apresentcao_06.mp4"
 ];
 
 let indiceVideoAtual = 0;
@@ -438,7 +445,7 @@ function iniciarPlaylist() {
     // Define o arquivo
     elementoVideo.src = videosPlaylist[indiceVideoAtual];
     elementoVideo.load();
-   
+
     // Força a reprodução e trata caso o navegador bloqueie
     const playPromise = elementoVideo.play();
     if (playPromise !== undefined) {
@@ -486,21 +493,25 @@ if (btnChamarPacienteConsultorio) {
         const painelTxtSenha = document.getElementById("painel-txt-senha");
         const painelTxtLocal = document.getElementById("painel-txt-local");
 
-        // 1. Move a chamada anterior para o histórico antes de substituir
-        if (painelTxtSenha && painelTxtSenha.textContent !== "---" && typeof historicoSenhas !== 'undefined') {
-            const senhaAntiga = painelTxtSenha.textContent;
-            const localAntigo = painelTxtLocal ? painelTxtLocal.textContent : "Local";
-           
-            historicoSenhas.unshift(`${senhaAntiga} (${localAntigo})`);
-            if (historicoSenhas.length > 4) {
-                historicoSenhas.pop();
-            }
-            if (typeof atualizarHistoricoVisual === 'function') {
-                atualizarHistoricoVisual();
+        const senhaEConsultorio = `${senhaParaChamar} (${localFormatado})`;
+        let salvarNoHistorico = true;
+
+        if (historicoSenhas.length > 0) {
+            if (historicoSenhas[0] === senhaEConsultorio) {
+                salvarNoHistorico = false;
             }
         }
 
-        // 2. Atualiza o painel principal mostrando a Senha e o Nome do Paciente junto
+        if (salvarNoHistorico) {
+            historicoSenhas.unshift(senhaEConsultorio);
+            if (historicoSenhas.length > 4) {
+                historicoSenhas.pop();
+            }
+        }
+
+        atualizarHistoricoVisual();
+
+        // Atualiza o painel principal mostrando a Senha e o Nome do Paciente junto
         if (painelTxtSenha) {
             painelTxtSenha.textContent = `${senhaParaChamar}\n${nomePaciente}`;
         }
@@ -523,4 +534,37 @@ function falarChamadaNatural(textoParaFalar) {
     audio.play().catch(error => {
         console.log("Erro ao reproduzir áudio do Google:", error);
     });
+}
+
+// Relógio
+function atualizarRelogio() {
+  const agora = new Date();
+  const horas = agora.getHours().toString().padStart(2, '0');
+  const minutos = agora.getMinutes().toString().padStart(2, '0');
+  const segundos = agora.getSeconds().toString().padStart(2, '0');
+
+  const horaFormatada = `${horas}:${minutos}:${segundos}`;
+  document.getElementById('relogio').textContent = horaFormatada;
+}
+
+// Atualiza o relógio a cada 1 segundo
+setInterval(atualizarRelogio, 1000);
+// Executa a primeira vez ao carregar a página
+atualizarRelogio();
+
+
+// Atualiza a média da Avaliação
+let listaAvaliacoes = [];
+
+function atualizarMediaAvaliacao() {
+    let soma = 0;
+    let media = 0;
+
+    listaAvaliacoes.forEach((valor) => {
+        soma += valor;
+    });
+
+    media = soma / listaAvaliacoes.length;
+
+    document.getElementById("media-avaliacao").textContent = `${media.toFixed(1)}`;
 }
