@@ -428,12 +428,18 @@ function atualizarHistoricoVisual() {
 }
 
 // --- Playlist Contínua de Vídeos ---
+let baseURL = "./";
+
+if (typeof BASE_URL !== 'undefined') {
+    baseURL = BASE_URL;
+}
+
 const videosPlaylist = [
-    "assets/videos/apresentcao_01.mp4",
-    "assets/videos/apresentcao_03.mp4",
-    "assets/videos/apresentcao_04.mp4",
-    "assets/videos/apresentcao_05.mp4",
-    "assets/videos/apresentcao_06.mp4"
+    baseURL + "assets/videos/apresentcao_01.mp4",
+    baseURL + "assets/videos/apresentcao_03.mp4",
+    baseURL + "assets/videos/apresentcao_04.mp4",
+    baseURL + "assets/videos/apresentcao_05.mp4",
+    baseURL + "assets/videos/apresentcao_06.mp4"
 ];
 
 let indiceVideoAtual = 0;
