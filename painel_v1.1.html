@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@v1.1/css/painel.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@v1.1/css/retirada-senha.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@v1.1/css/atendimento.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@v1.1/css/apresentacao.css">
+    <title>Painel de Atendimento</title>
+</head>
+<body>
+    <div id="painel-atendimento">
+        <!-- Parte esquerda da tela -->
+        <div id="campo-atendimento">
+            <!-- Tela 1: Retirada de senha e avaliação do atendimento -->
+            <div id="retirar-senha" class="tela-painel">
+                <h2><span class="icone-titulo">🎫</span> Retirada de Senha</h2>
+                <!-- Tela de seleção de atendimento e impressão de senha -->
+                <div id="imprimir-senha">
+                    <div id="btns-opcoes-atendimento">
+                        <button id="btn-atendimento-geral">Atendimento Geral</button>
+                        <button id="btn-consultas-agendadas">Consultas Agendadas</button>
+                        <button id="btn-atendimento-preferencial">Atendimento Preferencial</button>
+                        <button id="btn-exames-laboratoriais">Exames Laboratoriais</button>
+                    </div>
+                    <div id="impressao-senha">
+                        <div id="impressora">
+                            <div id="papel-senha">
+                                <h3>Sua senha</h3>
+                                <span id="senha-impressa">A-023</span>
+                                <small>Aguarde sua chamada</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="t1-img-hospital">
+                        <img src="https://raw.githubusercontent.com/marcosbgomes/painel-atendimento/v1.1/assets/images/sua-saude.png" class="img-slide" alt="Sua saúde é o nosso maior cuidado.">
+                        <img src="https://raw.githubusercontent.com/marcosbgomes/painel-atendimento/v1.1/assets/images/previnir.png" class="img-slide" alt="Previnir também é cuidar.">
+                        <img src="https://raw.githubusercontent.com/marcosbgomes/painel-atendimento/v1.1/assets/images/espaco-hospital.png" class="img-slide" alt="Espaços de atendimento do hospital.">
+                        <img src="https://raw.githubusercontent.com/marcosbgomes/painel-atendimento/v1.1/assets/images/saude-mental.png" class="img-slide" alt="Saúde mental importa.">
+                    </div>
+
+                    <button id="bt-avaliar-atendimento">
+                        <span class="icone-avaliar">⭐</span>
+                        Avaliar Atendimento
+                    </button>
+
+                </div>
+
+                <!-- Tela de avaliação do atendimento (Display none por padrão) -->
+                <!-- Alterna a exibição com a tela de impressão de senha -->
+                <div id="avaliar-atendimento">
+                    <div id="opcoes-avaliacao">
+                        <button class="btn-avaliacao" data-nota="muito-ruim">
+                            <span>😠</span>
+                            <small>Muito ruim</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="ruim">
+                            <span>🙁</span>
+                            <small>Ruim</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="regular">
+                            <span>😐</span>
+                            <small>Regular</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="bom">
+                            <span>🙂</span>
+                            <small>Bom</small>
+                        </button>
+                        <button class="btn-avaliacao" data-nota="excelente">
+                            <span>🤩</span>
+                            <small>Excelente</small>
+                        </button>
+                    </div>
+
+                    <div id="acoes-avaliacao">
+                        <button id="btn-confirmar" type="button">
+                            Confirmar
+                        </button>
+                        <button id="btn-cancelar" type="button">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </div>
+
+                <div id="tela-mensagem-avaliacao">
+                    <p id="mensagem-avaliacao">...</p>
+                </div>
+            </div>
+
+            <!-- Tela 2: Triagem e atendimento do paciente -->
+            <div id="triagem-atendimento" class="tela-painel">
+                <h2><span class="icone-titulo">🩺</span> Triagem e Atendimento</h2>
+
+                <!-- Botões para alternar entre as telas de atendimento -->
+                <div id="btns-atendimento">
+                    <button id="btn-triagem" class="btn-atendimento btn-atendimento-ativo">Triagem</button>
+                    <button id="btn-consultorios" class="btn-atendimento">Consultórios</button>
+                </div>
+
+                <!-- Tela de atendimento: Triagem -->
+                <div id="triagem" class="tela-atendimento atendimento-ativo">
+                    <div id="triagem-chamada" class="triagem triagem-ativa">
+                        <div id="triagem-tabela">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Senha</th>
+                                        <th>Horário</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+    
+                        <div id="triagem-controles">
+                            <div class="escolha-guiche">
+                                <label for="selecao-guiche">Guichê</label>
+                                <select id="selecao-guiche" class="guiche-triagem">
+                                    <option value="1">Guichê 01</option>
+                                    <option value="2">Guichê 02</option>
+                                    <option value="3">Guichê 03</option>
+                                </select>
+                            </div>
+    
+                            <div id="proxima-senha-triagem">
+                                <span>Próxima senha</span>
+                                <strong id="txt-proxima-senha-triagem">---</strong>
+                            </div>
+    
+                            <button id="btn-chamar-senha" class="btn-controle">Chamar Senha</button>
+                            <button id="btn-iniciar-triagem" class="btn-controle">Iniciar Triagem</button>
+                        </div>
+                    </div>
+
+                    <!-- Tela de atendimento: Realização da Triagem -->
+                    <div id="triagem-realiza" class="triagem">
+                        <div id="dados-triagem-realiza">
+                            <div id="titulo-triagem">
+                                <p>Realizar Triagem: <span id="senha-em-triagem"></span></p>
+                            </div>
+
+                            <div id="campos-triagem">
+                                <div class="campo-triagem">
+                                    <label for="nome-paciente">Nome do Paciente</label>
+                                    <input type="text" id="nome-paciente" placeholder="Digite o nome do paciente..." class="input-triagem-texto">
+                                </div>
+                                <div class="campo-triagem">
+                                    <label>Gravidade</label>
+                                    <div id="btns-gravidade">
+                                        <button class="btn-gravidade baixa" data-risco="Baixo">Baixa</button>
+                                        <button class="btn-gravidade moderada" data-risco="Moderado">Moderada</button>
+                                        <button class="btn-gravidade alta" data-risco="Alto">Alta</button>
+                                        <button class="btn-gravidade emergencia" data-risco="Emergência">Emergência</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="acao-triagem">
+                                <button id="cancelar-triagem" class="btn-controle">Cancelar</button>
+                                <button id="concluir-triagem" class="btn-controle">Finalizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tela de atendimento: Consultórios -->
+                <div id="consultorios" class="tela-atendimento">
+                    <div id="consultorio-tabela">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Senha</th>
+                                    <th>Gravidade</th>
+                                    <th>Nome</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="consultorio-controles">
+                        <div class="escolha-consultorio">
+                            <label for="selecao-consultorio">Consultório</label>
+                            <select id="selecao-consultorio" class="consultorio-atendimento">
+                                <option value="1">Consultório 01</option>
+                                <option value="2">Consultório 02</option>
+                                <option value="3">Consultório 03</option>
+                            </select>
+                        </div>
+
+                        <div id="proximo-paciente">
+                            <span>Próximo paciente</span>
+                            <strong id="txt-proximo-paciente">---</strong>
+                        </div>
+
+                        <button id="btn-chamar-paciente-consultorio" class="btn-controle">Chamar Paciente</button>
+                        <button id="btn-finalizar-atendimento" class="btn-controle">Finalizar Atendimento</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parte direita da tela -->
+        <div id="campo-apresentacao">
+            <!-- Tela 3: Vídeos, anúncios e chamadas de senhas -->
+            <div id="chamada-senhas" class="tela-painel">
+                <h2><span class="icone-titulo">🔔</span> Chamada de Senhas</h2>
+
+                <!-- Container de Vídeos / Anúncios -->
+                <div id="painel-video-container">
+                    <video id="video-painel" autoplay muted playsinline></video>
+                </div>
+
+                <!-- Container da senha chamada no painel principal -->
+                <div id="painel-senha-atual">
+                    <span class="rotulo-senha">SENHA</span>
+                    <span id="painel-txt-senha">---</span>
+                    <span class="rotulo-local">LOCAL</span>
+                    <span id="painel-txt-local">---</span>
+
+                    <div id="pontuacao-atendimento">
+                        <span id="relogio">Horas</span>
+                        Avaliação
+                        <span id="media-avaliacao">-</span>
+                    </div>
+                </div>
+
+                <!-- Histórico de Senhas Chamadas -->
+                <div id="painel-historico">
+                    <h3>Últimas Chamadas</h3>
+                    <div id="lista-historico">
+                        <!-- As senhas anteriores vão aparecer aqui dinamicamente -->
+                        <span class="historico-vazio">Nenhuma senha anterior</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = "https://raw.githubusercontent.com/marcosbgomes/painel-atendimento/v1.1/";
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/gh/marcosbgomes/painel-atendimento@v1.1/js/script.js"></script>
+</body>
+</html>
