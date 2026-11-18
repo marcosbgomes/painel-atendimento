@@ -255,6 +255,7 @@ btnCancelarTriagem.addEventListener("click", () => {
 const btnConcluitTriagem = document.getElementById("concluir-triagem");
 const corpoTabelaConsultorio = document.querySelector("#consultorio-tabela tbody");
 const txtProximoPaciente = document.getElementById("txt-proximo-paciente");
+let txtNomeProximoPaciente;
 
 btnConcluitTriagem.addEventListener("click", () => {
     const senha = document.getElementById("senha-em-triagem").textContent;
@@ -323,13 +324,16 @@ function atualizarProximoPaciente() {
 
     if (linhaSelecionada) {
         txtProximoPaciente.textContent = linhaSelecionada.cells[0].textContent;
+        txtNomeProximoPaciente = linhaSelecionada.cells[2].textContent;
     } else {
         const primeiraLinha = corpoTabelaConsultorio.querySelector("tr");
 
         if (primeiraLinha) {
             txtProximoPaciente.textContent = primeiraLinha.cells[0].textContent;
+            txtNomeProximoPaciente = primeiraLinha.cells[2].textContent;
         } else {
             txtProximoPaciente.textContent = "---";
+            txtNomeProximoPaciente = "";
         }
     }
 }
@@ -481,66 +485,73 @@ window.addEventListener("DOMContentLoaded", () => {
 const btnChamarPacienteConsultorio = document.getElementById("btn-chamar-paciente-consultorio");
 const selecaoConsultorio = document.getElementById("selecao-consultorio");
 
-if (btnChamarPacienteConsultorio) {
-    btnChamarPacienteConsultorio.addEventListener("click", () => {
-        // Pega a tabela de consultórios para ver quem é o próximo paciente
-        const corpoTabelaConsultorio = document.querySelector("#consultorio-tabela tbody");
-        const primeiraLinha = corpoTabelaConsultorio.querySelector("tr");
+btnChamarPacienteConsultorio.addEventListener("click", () => {
+    if (txtProximoPaciente.textContent === "---") return;
 
-        if (!primeiraLinha) return; // Se não tiver ninguém na tabela, não faz nada
+    // Extrai os dados da primeira linha da tabela do consultório
+    const senhaParaChamar = txtProximoPaciente.textContent;
+    const nomePaciente = txtNomeProximoPaciente;
 
-        // Extrai os dados da primeira linha da tabela do consultório
-        const senhaParaChamar = primeiraLinha.cells[0].textContent; // Coluna da Senha
-        const nomePaciente = primeiraLinha.cells[2].textContent;    // Coluna do Nome
+    const numeroConsultorio = selecaoConsultorio ? selecaoConsultorio.value : "1";
+    const localFormatado = `Consultório ${numeroConsultorio}`;
 
-        const numeroConsultorio = selecaoConsultorio ? selecaoConsultorio.value : "1";
-        const localFormatado = `Consultório ${numeroConsultorio}`;
+    const painelTxtSenha = document.getElementById("painel-txt-senha");
+    const painelTxtLocal = document.getElementById("painel-txt-local");
 
-        const painelTxtSenha = document.getElementById("painel-txt-senha");
-        const painelTxtLocal = document.getElementById("painel-txt-local");
+    const senhaEConsultorio = `${senhaParaChamar} (${localFormatado})`;
+    let salvarNoHistorico = true;
 
-        const senhaEConsultorio = `${senhaParaChamar} (${localFormatado})`;
-        let salvarNoHistorico = true;
-
-        if (historicoSenhas.length > 0) {
-            if (historicoSenhas[0] === senhaEConsultorio) {
-                salvarNoHistorico = false;
-            }
+    if (historicoSenhas.length > 0) {
+        if (historicoSenhas[0] === senhaEConsultorio) {
+            salvarNoHistorico = false;
         }
+    }
 
-        if (salvarNoHistorico) {
-            historicoSenhas.unshift(senhaEConsultorio);
-            if (historicoSenhas.length > 4) {
-                historicoSenhas.pop();
-            }
+    if (salvarNoHistorico) {
+        historicoSenhas.unshift(senhaEConsultorio);
+        if (historicoSenhas.length > 4) {
+            historicoSenhas.pop();
         }
+    }
 
-        atualizarHistoricoVisual();
+    atualizarHistoricoVisual();
 
-        // Atualiza o painel principal mostrando a Senha e o Nome do Paciente junto
-        if (painelTxtSenha) {
-            painelTxtSenha.textContent = `${senhaParaChamar}\n${nomePaciente}`;
-        }
-        if (painelTxtLocal) {
-            painelTxtLocal.textContent = localFormatado;
-        }
+    // Atualiza o painel principal mostrando a Senha e o Nome do Paciente junto
+    if (painelTxtSenha) {
+        painelTxtSenha.textContent = `${senhaParaChamar}\n${nomePaciente}`;
+    }
+    if (painelTxtLocal) {
+        painelTxtLocal.textContent = localFormatado;
+    }
 
-        // Aciona a voz natural do Google no consultório anunciando de forma fluida
-        falarChamadaNatural(`Senha ${senhaParaChamar}, paciente ${nomePaciente}, para o ${localFormatado}.`);
-    });
+    // Aciona a voz natural do Google no consultório anunciando de forma fluida
+    falarChamadaNatural(`Senha ${senhaParaChamar}, paciente ${nomePaciente}, para o ${localFormatado}.`);
+});
+
+
+// --- Função de voz ---
+let vozes;
+// Carregas as vozes disponíveis assim que estiverem prontas
+// Isso é um evento que só ocorre quando as vozes estiverem disponíveis
+// Então, quando disparado, as vozes são gravadas na variável
+window.speechSynthesis.onvoiceschanged = () => {
+    vozes = window.speechSynthesis.getVoices();
+};
+
+function falarChamadaNatural(texto) {
+    const fala = new SpeechSynthesisUtterance(texto);
+
+    fala.rate = 1.1;  // Velocidade da fala
+    fala.volume = 1.0;  // Volume
+
+    const vozGoogle = vozes.find(voz => voz.name.includes("Google português do Brasil"));
+    if (vozGoogle) {
+        fala.voice = vozGoogle
+    }
+
+    window.speechSynthesis.speak(fala);
 }
 
-// --- Função de Voz com Áudio Natural do Google ---
-function falarChamadaNatural(textoParaFalar) {
-    const textoCodificado = encodeURIComponent(textoParaFalar);
-    const urlAudio = `https://translate.google.com/translate_tts?ie=UTF-8&q=${textoCodificado}&tl=pt-BR&client=tw-ob`;
-
-    const audio = new Audio(urlAudio);
-    audio.volume = 1.0;
-    audio.play().catch(error => {
-        console.log("Erro ao reproduzir áudio do Google:", error);
-    });
-}
 
 // Relógio
 function atualizarRelogio() {
